@@ -36,7 +36,7 @@ final class NetworkServiceWithAsync: UIImageView, NetworkingServiceProtocol {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let images = try JSONDecoder().decode([Image].self, from: data)
-            let imageURLs = images.compactMap { URL(string: $0.urls.raw) }
+            let imageURLs = images.compactMap { URL(string: $0.urls.regular) }
             return imageURLs
         } catch {
             throw NetworkingError.invalidData
@@ -92,11 +92,21 @@ final class NetworkServiceWithAsync: UIImageView, NetworkingServiceProtocol {
             do {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode([Image].self, from: data)
-                let descriptions = response.compactMap { $0.alt_description }
+                let descriptions = response.compactMap { image -> String? in
+                    if let altDescription = image.alt_description {
+                        return altDescription
+                    } else {
+                        return "Description not provided"
+                    }
+                }
+                
                 completion(descriptions)
             } catch {
                 completion([])
             }
+            
+            
+            
         }
         task.resume()
     }

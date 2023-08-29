@@ -67,7 +67,7 @@ final class MainViewController: UIViewController {
     }
     
     func loadRandomImages() {
-        Task {
+        Task.init {
             do {
                 if let urls = try await networkService.fetchRandomImage(count: 10) {
                     imageUrls = urls
@@ -80,7 +80,7 @@ final class MainViewController: UIViewController {
     }
     
     private func fetchImage() {
-        async {
+        Task.init {
             let networkService = NetworkServiceWithAsync()
             
             do {
@@ -94,7 +94,7 @@ final class MainViewController: UIViewController {
     }
     
     private func fetchRandomImages() {
-        async {
+        Task.init {
             let networkService = NetworkServiceWithAsync()
 
             do {
@@ -124,7 +124,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
         let imageUrl = imageUrls[indexPath.row]
-        var imageCell: String = ""
         Task {
             do {
                 if let image = try await networkService.fetchImage(url: imageUrl) {
