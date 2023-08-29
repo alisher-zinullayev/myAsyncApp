@@ -79,35 +79,35 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func fetchImage() {
-        Task.init {
-            let networkService = NetworkServiceWithAsync()
-            
-            do {
-                if let image = try await networkService.fetchImage(url: URL(string: "https://images.unsplash.com/photo-1692555052035-1a3116e30ba5?ixid=M3w0OTEzMzh8MHwxfGFsbHw5fHx8fHx8Mnx8MTY5MzEzMTU0MHw&ixlib=rb-4.0.3")!) {
-                    print(image)
-                }
-            } catch {
-                print("Error fetching random image URLs: \(error)")
-            }
-        }
-    }
-    
-    private func fetchRandomImages() {
-        Task.init {
-            let networkService = NetworkServiceWithAsync()
-
-            do {
-                if let imageURLs = try await networkService.fetchRandomImage(count: 10) {
-                    for url in imageURLs {
-                        print("Image URL: \(url)")
-                    }
-                }
-            } catch {
-                print("Error fetching random image URLs: \(error)")
-            }
-        }
-    }
+//    private func fetchImage() {
+//        Task.init {
+//            let networkService = NetworkServiceWithAsync()
+//
+//            do {
+//                if let image = try await networkService.fetchImage(url: URL(string: "https://images.unsplash.com/photo-1692555052035-1a3116e30ba5?ixid=M3w0OTEzMzh8MHwxfGFsbHw5fHx8fHx8Mnx8MTY5MzEzMTU0MHw&ixlib=rb-4.0.3")!) {
+//                    print(image)
+//                }
+//            } catch {
+//                print("Error fetching random image URLs: \(error)")
+//            }
+//        }
+//    }
+//
+//    private func fetchRandomImages() {
+//        Task.init {
+//            let networkService = NetworkServiceWithAsync()
+//
+//            do {
+//                if let imageURLs = try await networkService.fetchRandomImage(count: 10) {
+//                    for url in imageURLs {
+//                        print("Image URL: \(url)")
+//                    }
+//                }
+//            } catch {
+//                print("Error fetching random image URLs: \(error)")
+//            }
+//        }
+//    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

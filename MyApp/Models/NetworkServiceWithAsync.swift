@@ -23,9 +23,10 @@ final class NetworkServiceWithAsync: UIImageView, NetworkingServiceProtocol {
         guard var components = URLComponents(string: "https://api.unsplash.com/photos/") else {
             throw NetworkingError.badURL
         }
-
+        // fiTKp11mPllXJJxErH2e_j4qFoOKmCL4mTFaJ_CmP8A
+        // un0STNzoCb3-9FrlA09e5FmOL_TpWpBjOHBdk5DIKCY
         components.queryItems = [
-            URLQueryItem(name: "client_id", value: "un0STNzoCb3-9FrlA09e5FmOL_TpWpBjOHBdk5DIKCY"),
+            URLQueryItem(name: "client_id", value: "fiTKp11mPllXJJxErH2e_j4qFoOKmCL4mTFaJ_CmP8A"),
             URLQueryItem(name: "count", value: "\(count)")
         ]
 
@@ -69,7 +70,7 @@ final class NetworkServiceWithAsync: UIImageView, NetworkingServiceProtocol {
     }
     
     func getDescriptions(completion: @escaping ([String]) -> Void) {
-        let apiKey = "un0STNzoCb3-9FrlA09e5FmOL_TpWpBjOHBdk5DIKCY"
+        let apiKey = "fiTKp11mPllXJJxErH2e_j4qFoOKmCL4mTFaJ_CmP8A"
         let count = 10
         let urlString = "https://api.unsplash.com/photos/?client_id=\(apiKey)&count=\(count)"
         
