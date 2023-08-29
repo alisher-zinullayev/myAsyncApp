@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4395A4682A95F36300C8B345 /* ReusableCellImageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4395A4672A95F36300C8B345 /* ReusableCellImageAdapter.swift */; };
 		43CAAE9C2A9213AF00D2E37A /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CAAE9B2A9213AF00D2E37A /* Image.swift */; };
 		43CAC13B2A8E5670006BFBC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC13A2A8E5670006BFBC8 /* AppDelegate.swift */; };
 		43CAC13D2A8E5670006BFBC8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC13C2A8E5670006BFBC8 /* SceneDelegate.swift */; };
@@ -20,7 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4395A4672A95F36300C8B345 /* ReusableCellImageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCellImageAdapter.swift; sourceTree = "<group>"; };
 		43CAAE9B2A9213AF00D2E37A /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		43CAC1372A8E5670006BFBC8 /* MyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43CAC13A2A8E5670006BFBC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,8 +71,6 @@
 				43CAC1432A8E5672006BFBC8 /* Assets.xcassets */,
 				43CAC1452A8E5672006BFBC8 /* LaunchScreen.storyboard */,
 				43CAC1482A8E5672006BFBC8 /* Info.plist */,
-				43CE6D4C2A9486A300B588EE /* NetworkServiceWithAsync.swift */,
-				4395A4672A95F36300C8B345 /* ReusableCellImageAdapter.swift */,
 			);
 			path = MyApp;
 			sourceTree = "<group>";
@@ -98,6 +94,7 @@
 		43CAC1502A8E5730006BFBC8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				43CE6D4C2A9486A300B588EE /* NetworkServiceWithAsync.swift */,
 				43CAAE9B2A9213AF00D2E37A /* Image.swift */,
 			);
 			path = Models;
@@ -174,7 +171,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4395A4682A95F36300C8B345 /* ReusableCellImageAdapter.swift in Sources */,
 				43CAC13F2A8E5670006BFBC8 /* MainViewController.swift in Sources */,
 				43CAC13B2A8E5670006BFBC8 /* AppDelegate.swift in Sources */,
 				43CAAE9C2A9213AF00D2E37A /* Image.swift in Sources */,

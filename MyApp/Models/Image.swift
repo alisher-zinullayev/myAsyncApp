@@ -10,10 +10,9 @@ import Foundation
 struct Image: Codable {
     let id: String
     let urls: ImageURLs
-    let description: String?
+    let alt_description: String?
 }
 
 struct ImageURLs: Codable {
     let raw: String
 }
-

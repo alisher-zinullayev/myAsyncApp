@@ -7,12 +7,12 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
+    let networkService = NetworkServiceWithAsync()
+    var imageUrls: [URL] = []
+    var imageNames: [String] = []
     var result: [Image] = []
-    var tempString: String = ""
-    private let images: [String] = ["image1", "image1", "image1", "image1", "image1"]
-    private let imageNames: [String] = ["We love travelling around the world", "Romance Stories", "iOS Dev", "Race", "Personal Development"]
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -57,17 +57,54 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        networkService.getDescriptions { descriptions in
+            self.imageNames = descriptions
+        }
         setupBackgroundImage()
         setupCollectionView()
-        Task.init { [weak self] in
+        loadRandomImages()
+        
+    }
+    
+    func loadRandomImages() {
+        Task {
             do {
-                let images = try await NetworkServiceWithAsync.shared.fetchData()
-                DispatchQueue.main.async {
-                    self?.result = images
-                    self?.collectionView.reloadData()
+                if let urls = try await networkService.fetchRandomImage(count: 10) {
+                    imageUrls = urls
+                    collectionView.reloadData()
                 }
             } catch {
-                print(error.localizedDescription)
+                print("Error fetching random images: \(error)")
+            }
+        }
+    }
+    
+    private func fetchImage() {
+        async {
+            let networkService = NetworkServiceWithAsync()
+            
+            do {
+                if let image = try await networkService.fetchImage(url: URL(string: "https://images.unsplash.com/photo-1692555052035-1a3116e30ba5?ixid=M3w0OTEzMzh8MHwxfGFsbHw5fHx8fHx8Mnx8MTY5MzEzMTU0MHw&ixlib=rb-4.0.3")!) {
+                    print(image)
+                }
+            } catch {
+                print("Error fetching random image URLs: \(error)")
+            }
+        }
+    }
+    
+    private func fetchRandomImages() {
+        async {
+            let networkService = NetworkServiceWithAsync()
+
+            do {
+                if let imageURLs = try await networkService.fetchRandomImage(count: 10) {
+                    for url in imageURLs {
+                        print("Image URL: \(url)")
+                    }
+                }
+            } catch {
+                print("Error fetching random image URLs: \(error)")
             }
         }
     }
@@ -75,54 +112,31 @@ class MainViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
-    
-    private var adapterList = [UICollectionViewCell: ReusableCellImageAdapter]()
-
-    private func getReusableAdapter(forReusableCell cell: UICollectionViewCell) -> ReusableCellImageAdapter{
-        if let adapter = adapterList[cell]{
-            print("Find a reusable adapter")
-            return adapter
-        }
-        else{
-            print("Create a reusable adapter")
-            let adapter = ReusableCellImageAdapter()
-            adapterList[cell] = adapter
-            return adapter
-        }
-    }
 }
 
 
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return result.count
+        return imageUrls.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
-        
-//        let filename = "\(indexPath.row).jpg"
-//        let baseUrl = "https://your.url.com/images/"
-//        let path = baseUrl + filename
-        let path = "https://images.unsplash.com/photo-1691512935129-5ab21146a1bc?ixid=M3w0OTEzMzh8MHwxfGFsbHwyfHx8fHx8Mnx8MTY5MjcwNTU0MHw&ixlib=rb-4.0.3"
-        let adapter = getReusableAdapter(forReusableCell: cell)
-        cell.imageView.image = nil
-        cell.imageView.backgroundColor = .systemBlue
-        cell.imageView.startAnimating()
-        adapter.configure(from: path) { image in
-            cell.imageView.stopAnimating()
-            if let image = image {
-                cell.imageView.image = image
-            }
-            else{
-                cell.imageView.backgroundColor = .systemRed
+        let imageUrl = imageUrls[indexPath.row]
+        var imageCell: String = ""
+        Task {
+            do {
+                if let image = try await networkService.fetchImage(url: imageUrl) {
+                    DispatchQueue.main.async {
+                        cell.imageView.image = image
+                    }
+                }
+            } catch {
+                print("Error fetching image: \(error)")
             }
         }
-        
-//        let item = result[indexPath.row]
-        
-//        cell.configure(image: item.urls.raw, label: item.description ?? "asdasdad")
+        cell.configure(label: imageNames[indexPath.row])
         return cell
     }
     

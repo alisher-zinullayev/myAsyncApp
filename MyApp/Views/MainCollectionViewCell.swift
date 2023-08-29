@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MainCollectionViewCell: UICollectionViewCell {
+final class MainCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "MainCollectionViewCell"
+    static let identifier = String(describing: MainCollectionViewCell.self)
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -30,8 +30,16 @@ class MainCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textColor = .black
+        label.textColor = UIColor.black
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.textAlignment = .left
         return label
+    }()
+    
+    private let containerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override init(frame: CGRect) {
@@ -46,25 +54,32 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(imageView)
-        contentView.addSubview(backgroundPicture)
+        contentView.addSubview(containerView)
+        containerView.addSubview(imageView)
+        containerView.addSubview(backgroundPicture)
         backgroundPicture.addSubview(nameLabel)
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            backgroundPicture.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -100),
-            backgroundPicture.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            backgroundPicture.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            backgroundPicture.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            
+            backgroundPicture.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -100),
+            backgroundPicture.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            backgroundPicture.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            backgroundPicture.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
             nameLabel.leadingAnchor.constraint(equalTo: backgroundPicture.leadingAnchor, constant: 10),
             nameLabel.trailingAnchor.constraint(equalTo: backgroundPicture.trailingAnchor, constant: -10),
             nameLabel.centerYAnchor.constraint(equalTo: backgroundPicture.centerYAnchor),
-            nameLabel.heightAnchor.constraint(equalToConstant: 30)
+//            nameLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -74,8 +89,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         nameLabel.text = nil
     }
     
-    func configure(image: String, label: String) {
-        imageView.image = UIImage(named: image)
+    func configure(label: String) {
         nameLabel.text = label
     }
 }
